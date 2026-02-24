@@ -112,6 +112,26 @@ button { cursor:pointer; font-family:inherit; border:none; background:none; }
 .header-right button:hover { background:var(--fill2); transform:scale(1.05); }
 .btn-new { background:var(--active) !important; color:#fff !important; border-color:var(--active) !important; }
 
+.header-right .home-link{
+  height:32px;
+  padding:0 10px;
+  border-radius:7px;
+  font-size:.8rem;
+  font-weight:700;
+  background:var(--card);
+  border:1.5px solid var(--grid);
+  color:var(--text);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .15s,transform .1s;
+}
+.header-right .home-link:hover{
+  background:var(--fill2);
+  transform:scale(1.05);
+}
+
 /* Grid */
 .game-grid {
   display:grid;
