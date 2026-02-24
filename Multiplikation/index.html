@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multiplikation 1000p</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- REGELSPOPUP -->
+  <div id="rulesOverlay" class="rules-overlay hidden">
+    <div class="rules-box">
+      <button id="rulesClose" class="rules-close">✕</button>
+      <div class="rules-title">📖 Regler &amp; inställningar</div>
+      <div class="rules-body">
+        <div class="rules-section">
+          <div class="rules-heading">🎯 Mål</div>
+          <p>Spelarna turas om att lösa multiplikationsuppgifter. Den som först når poängmålet vinner!</p>
+        </div>
+        <div class="rules-section">
+          <div class="rules-heading">✖️ Hur det fungerar</div>
+          <p>En uppgift visas — t.ex. <strong>7 × 8 = ?</strong><br>
+          Skriv svaret och tryck <strong>Enter</strong>.<br>
+          Rätt svar ger poäng lika med produkten (7 × 8 = 56 poäng).<br>
+          Fel svar ger inga poäng — nästa spelare fortsätter.</p>
+        </div>
+        <div class="rules-section">
+          <div class="rules-heading">⚙️ Inställningar</div>
+          <p><strong>Spelare:</strong> 2–6 st. Döp om och välj emoji i spelarkorten.<br>
+          <strong>Mål:</strong> 500, 1 000 eller 2 000 poäng för vinst.<br>
+          <strong>Chanser:</strong> 1 = ett försök. 2 = extra försök med ledtråd.<br>
+          <strong>Tabeller:</strong> Alla (1–10) eller välj specifika.</p>
+        </div>
+        <div class="rules-section">
+          <div class="rules-heading">💡 Mattetermer</div>
+          <p><strong>Faktor × faktor = produkt.</strong><br>
+          Multiplikation är upprepad addition — 4 × 3 = 4 + 4 + 4 = 12.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER med inställningar -->
+  <header class="app-header">
+
+    <div class="header-left">
+      <a href="../index.html" class="home-btn" title="Startsidan">🏠</a>
+      <h1 class="app-title">✖️ Multiplikation 1000p</h1>
+    </div>
+
+    <div class="settings-row" id="settingsRow">
+      <span class="setting-label">Spelare</span>
+      <div class="setting-group" id="playerBtns">
+        <button class="xs active-preset" data-players="2">2</button>
+        <button class="xs" data-players="3">3</button>
+        <button class="xs" data-players="4">4</button>
+        <button class="xs" data-players="5">5</button>
+        <button class="xs" data-players="6">6</button>
+      </div>
+
+      <span class="setting-label">Mål</span>
+      <div class="setting-group" id="goalBtns">
+        <button class="xs" data-goal="500">500p</button>
+        <button class="xs active-preset" data-goal="1000">1000p</button>
+        <button class="xs" data-goal="2000">2000p</button>
+      </div>
+
+      <span class="setting-label">Chanser</span>
+      <div class="setting-group" id="chancesBtns">
+        <button class="xs active-preset" data-chances="1">1</button>
+        <button class="xs" data-chances="2">2</button>
+      </div>
+
+      <span class="setting-label">Tabeller</span>
+      <div class="setting-group" id="presetBtns">
+        <button class="xs active-preset" data-preset="all">Alla</button>
+        <button class="xs" data-preset="custom">Välj</button>
+      </div>
+      <div class="setting-group hidden" id="customTableRow"></div>
+      <span id="settingsLockNote" class="settings-lock-note hidden">🔒 Ny omgång för att ändra</span>
+    </div>
+
+    <div class="header-right">
+      <button id="rulesBtn" class="tool-btn rules-tool-btn">📖 Regler</button>
+      <button id="resetBtn" class="tool-btn">🔄 Ny omgång</button>
+      <label class="switch"><input type="checkbox" id="muteChk" checked/> 🔊</label>
+      <label class="switch"><input type="checkbox" id="darkChk"/> 🌙</label>
+      <button id="fsBtn" class="tool-btn">⛶</button>
+    </div>
+
+  </header>
+
+  <!-- SPELET -->
+  <div class="game-main">
+
+    <div class="question-column">
+
+      <div id="activeBanner" class="active-banner panel">
+        <div id="activeAvatar" class="active-avatar">🦊</div>
+        <div class="active-info">
+          <div id="activeName" class="active-name">P1</div>
+          <div id="activeComment" class="active-comment">Välj inställningar ovan och tryck Starta!</div>
+        </div>
+        <div id="activeScore" class="active-score">0p</div>
+      </div>
+
+      <div id="questionBox" class="question-box panel">
+        <div id="playerStage" class="player-stage">
+          <div id="stageEmoji" class="stage-emoji">🦊</div>
+          <div class="stage-meta">
+            <div id="stageName" class="stage-name">P1</div>
+            <div class="stage-score-row">
+              <span id="stageScore" class="stage-score">0</span>
+              <span id="stageGoal"  class="stage-goal">/ 1 000 p</span>
+            </div>
+            <div class="stage-bar-track">
+              <div id="stageBarFill" class="stage-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-divider"></div>
+
+        <div id="questionDisplay" class="question-display">
+          <span id="factorA" class="qnum">–</span>
+          <span class="qlabel" id="labelA"></span>
+          <span class="qop">×</span>
+          <span id="factorB" class="qnum">–</span>
+          <span class="qlabel" id="labelB"></span>
+          <span class="qop">=</span>
+          <input id="answerInput" class="answer-input" type="number"
+                 inputmode="numeric" placeholder="?" autocomplete="off" disabled/>
+        </div>
+        <div id="termLabel" class="term-label">faktor × faktor = produkt</div>
+        <div id="attemptsRow" class="attempts-row">
+          <span class="attempt-dot" id="dot1"></span>
+          <span class="attempt-dot" id="dot2"></span>
+        </div>
+      </div>
+
+      <div id="statusBar" class="status-bar panel">Välj inställningar ovan och tryck Starta!</div>
+      <button id="startBtn" class="start-btn">▶ Starta spelet</button>
+
+    </div>
+
+    <div class="side-column">
+      <div class="panel players-panel">
+        <div id="players" class="players"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="emojiPicker" class="emoji-picker hidden"></div>
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+  <script src="game.js"></script>
+</body>
+</html>
