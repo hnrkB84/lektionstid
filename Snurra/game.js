@@ -29,6 +29,7 @@ const SEG_COLORS = [
 // ─── INIT ─────────────────────────
 window.addEventListener('load', () => {
   applyTheme();
+  checkOrientation();
   document.getElementById('input-names').addEventListener('input', updateNameCount);
   document.getElementById('input-count').addEventListener('input', updateCountPreview);
   updateGroupsHint();
@@ -338,22 +339,35 @@ let wheelSize = 300;
 function initWheel() {
   const canvas   = document.getElementById('wheel-canvas');
   const spinMain = document.querySelector('.spin-main');
-  const w = spinMain.clientWidth;
-  const h = spinMain.clientHeight;
-  // subtract result text (~3.5rem) + button (~58px) + gaps + pointer
-  const avail = Math.min(w - 20, h - 130, 600);
-  wheelSize   = Math.max(220, avail);
-  canvas.width = canvas.height = wheelSize;
-  canvas.style.width = canvas.style.height = wheelSize + 'px';
+  if (!spinMain) return;
+
+  const dpr = window.devicePixelRatio || 1;
+  const w   = spinMain.clientWidth;
+  const h   = spinMain.clientHeight;
+
+  // Reserve space for result text (~3.5rem ≈ 56px) + button (~58px) + gaps + pointer
+  const reserved = 56 + 58 + 40 + 24; // result + button + gaps + pointer
+  const avail    = Math.min(w - 24, h - reserved, 580);
+  wheelSize      = Math.max(180, avail);
+
+  // Physical pixels for sharp rendering on retina
+  canvas.width  = Math.round(wheelSize * dpr);
+  canvas.height = Math.round(wheelSize * dpr);
+  // CSS size stays at logical pixels
+  canvas.style.width  = wheelSize + 'px';
+  canvas.style.height = wheelSize + 'px';
+
   drawWheel();
 }
 
 function drawWheel() {
   const canvas = document.getElementById('wheel-canvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const w = canvas.width, cx = w / 2, cy = w / 2, r = w / 2 - 2;
-  ctx.clearRect(0, 0, w, w);
+  const dpr = window.devicePixelRatio || 1;
+  const ctx  = canvas.getContext('2d');
+  const W    = canvas.width;   // physical pixels
+  const cx   = W / 2, cy = W / 2, r = W / 2 - 2 * dpr;
+  ctx.clearRect(0, 0, W, W);
 
   const items = remaining.length > 0 ? remaining : ['—'];
   const n   = items.length;
@@ -370,7 +384,7 @@ function drawWheel() {
     ctx.fillStyle = SEG_COLORS[i % SEG_COLORS.length];
     ctx.fill();
     ctx.strokeStyle = 'rgba(255,255,255,.55)';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * dpr;
     ctx.stroke();
 
     ctx.save();
@@ -378,14 +392,14 @@ function drawWheel() {
     ctx.rotate(startA + arc / 2);
 
     const text = items[i];
-    const fs   = text.length <= 3
+    const fs   = (text.length <= 3
       ? Math.max(12, Math.min(26, r * 0.17))
-      : Math.max(9,  Math.min(16, r * 0.11));
+      : Math.max(9,  Math.min(16, r * 0.11)));
 
     ctx.font = `900 ${fs}px Nunito, sans-serif`;
-    ctx.fillStyle = 'rgba(255,255,255,.93)';
-    ctx.shadowColor = 'rgba(0,0,0,.38)';
-    ctx.shadowBlur  = 3;
+    ctx.fillStyle = 'rgba(255,255,255,.95)';
+    ctx.shadowColor = 'rgba(0,0,0,.45)';
+    ctx.shadowBlur  = 3 * dpr;
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
 
@@ -393,7 +407,7 @@ function drawWheel() {
     let label = text;
     while (ctx.measureText(label).width > maxLen && label.length > 1) label = label.slice(0, -1);
     if (label !== text) label += '…';
-    ctx.fillText(label, r - 12, 0);
+    ctx.fillText(label, r - 12 * dpr, 0);
     ctx.restore();
   }
 
@@ -403,7 +417,7 @@ function drawWheel() {
   ctx.fillStyle = '#fff';
   ctx.fill();
   ctx.strokeStyle = 'rgba(0,0,0,.1)';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2 * dpr;
   ctx.stroke();
 }
 
@@ -569,7 +583,25 @@ function launchConfetti() {
   requestAnimationFrame(draw);
 }
 
-// ─── RESIZE ───────────────────────
+// ─── PORTRAIT WARNING ─────────────
+function checkOrientation() {
+  const isPortrait = window.innerHeight > window.innerWidth;
+  // Only show on touch devices (iPad/tablet/phone)
+  const isTouch = navigator.maxTouchPoints > 0;
+  const warn = document.getElementById('portrait-warning');
+  if (isTouch && isPortrait) {
+    warn.classList.remove('hidden');
+  } else {
+    warn.classList.add('hidden');
+  }
+}
+
 window.addEventListener('resize', () => {
+  checkOrientation();
   if (!document.getElementById('page-spin').classList.contains('hidden')) initWheel();
 });
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => { checkOrientation(); initWheel(); }, 300);
+});
+
+// ─── WHEEL ────────────────────────

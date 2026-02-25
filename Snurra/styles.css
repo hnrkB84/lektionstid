@@ -461,6 +461,37 @@ textarea:focus{outline:none;border-color:var(--active)}
 }
 
 /* ═══════════════════════════════
+   PORTRAIT WARNING
+═══════════════════════════════ */
+.portrait-warning{
+  position:fixed;inset:0;z-index:999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+}
+.portrait-warning.hidden{display:none}
+.portrait-warning-inner{
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+}
+.portrait-icon{
+  font-size:4rem;
+  animation:rotate-hint 2s ease-in-out infinite;
+  display:block;
+}
+@keyframes rotate-hint{
+  0%,100%{transform:rotate(0deg)}
+  40%{transform:rotate(90deg)}
+  60%{transform:rotate(90deg)}
+}
+.portrait-warning-inner h2{
+  font-size:1.6rem;font-weight:900;
+  background:linear-gradient(135deg,var(--active-dark),var(--active));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.portrait-warning-inner p{font-size:.95rem;color:var(--text-muted);font-weight:600}
+
+/* ═══════════════════════════════
    CONFETTI
 ═══════════════════════════════ */
 #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:300}
