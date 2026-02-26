@@ -83,6 +83,9 @@ const state = {
   gameStarted:    false,
 };
 
+// ============================================================
+// DOM
+// ============================================================
 const $ = id => document.getElementById(id);
 const dom = {
   activeAvatar:   $('activeAvatar'),
@@ -94,12 +97,12 @@ const dom = {
   factorB:        $('factorB'),
   labelA:         $('labelA'),
   labelB:         $('labelB'),
+  answerInput:    $('answerInput'),   // dolt, för desktop
   answerDisplay:  $('answerDisplay'),
   answerValue:    $('answerValue'),
-  answerInput:    $('answerInput'),   // dolt, för desktop-tangentbord
-  numpad:         $('numpad'),
-  npEnter:        $('npEnter'),
-  npDel:          $('npDel'),
+  numRow:         $('numRow'),
+  numDel:         $('numDel'),
+  numOk:          $('numOk'),
   termLabel:      $('termLabel'),
   dot1:           $('dot1'),
   dot2:           $('dot2'),
@@ -123,8 +126,7 @@ const dom = {
   startBtn:       $('startBtn'),
 };
 
-// ── Numpad state ──────────────────────────────────
-let numpadValue = '';
+let numVal = '';
 
 // ============================================================
 // LJUD
@@ -191,9 +193,14 @@ function generateAndShow() {
   renderAttemptDots();
   updateTurnIndicators();
   dom.termLabel.textContent = 'faktor × faktor = produkt';
-  resetNumpad();
-  dom.numpad.classList.remove('hidden');
+  // Visa sifferraden
+  numVal = '';
+  dom.numRow.classList.remove('hidden');
+  dom.numOk.disabled = true;
   dom.answerDisplay.classList.add('active');
+  dom.answerDisplay.classList.remove('correct');
+  dom.answerValue.textContent = '?';
+  dom.answerValue.classList.add('placeholder');
 }
 
 function renderQuestion() {
@@ -201,9 +208,10 @@ function renderQuestion() {
   if (!q) {
     dom.factorA.textContent = '–'; dom.factorB.textContent = '–';
     dom.labelA.textContent  = '';  dom.labelB.textContent  = '';
+    dom.numRow.classList.add('hidden');
     dom.answerDisplay.classList.remove('active','correct');
-    dom.numpad.classList.add('hidden');
-    resetNumpad();
+    dom.answerValue.textContent = '?';
+    dom.answerValue.classList.add('placeholder');
     return;
   }
   dom.factorA.textContent = q.a;
@@ -223,8 +231,8 @@ function renderAttemptDots() {
 
 function onAnswer() {
   if (!state.questionActive || isGameOver()) return;
-  const val = parseInt(numpadValue, 10);
-  if (isNaN(val) || numpadValue === '') return;
+  const val = parseInt(numVal, 10);
+  if (isNaN(val) || numVal === '') return;
   const { a, b, answer } = state.currentQ;
   val === answer ? handleCorrect(a, b, answer) : handleWrong(a, b, answer);
 }
@@ -243,8 +251,8 @@ function handleCorrect(a, b, answer) {
     : pick(COMMENTS.correct_second, a, b, answer);
 
   dom.answerDisplay.classList.add('correct');
-  dom.numpad.classList.add('hidden');
-  dom.npEnter.disabled = true;
+  dom.answerDisplay.classList.remove('active');
+  dom.numRow.classList.add('hidden');
   dom.termLabel.textContent = `${a} × ${b} = produkt ← ${answer} ✓`;
 
   spawnFloatPoints(pts);
@@ -285,16 +293,20 @@ function handleWrong(a, b, answer) {
   state.streak[state.current] = 0;
   dom.answerDisplay.classList.add('shake');
   setTimeout(() => dom.answerDisplay.classList.remove('shake'), 380);
-  resetNumpad();
+  numVal = '';
+  dom.answerValue.textContent = '?';
+  dom.answerValue.classList.add('placeholder');
+  dom.numOk.disabled = true;
 
   if (state.maxAttempts >= 2 && state.wrongAttempts < state.maxAttempts) {
     dom.dot1.classList.add('used');
     updateActiveBanner(pick(COMMENTS.wrong_hint, a, b, answer));
     dom.statusBar.textContent = 'Fel — ett försök kvar!';
   } else {
-    if (state.maxAttempts >= 2) dom.dot2?.classList.add('used');
+    if (state.maxAttempts >= 2) dom.dot2.classList.add('used');
+    sound.hint();
     state.questionActive = false;
-    dom.numpad.classList.add('hidden');
+    dom.numRow.classList.add('hidden');
     const comment = state.maxAttempts >= 2
       ? pick(COMMENTS.wrong_reveal, a, b, answer)
       : pick(COMMENTS.wrong_hint, a, b, answer);
@@ -710,49 +722,41 @@ dom.fsBtn.addEventListener('click', () => {
 });
 
 // ============================================================
-// NUMPAD LOGIK
+// SIFFERRAD LOGIK
 // ============================================================
-function resetNumpad() {
-  numpadValue = '';
-  dom.answerValue.textContent = '?';
-  dom.answerValue.classList.add('placeholder');
-  dom.npEnter.disabled = true;
-}
-
-function numpadPress(val) {
+function numPress(digit) {
   if (!state.questionActive || isGameOver()) return;
-  if (numpadValue.length >= 4) return; // max 4 siffror
-  numpadValue += val;
-  dom.answerValue.textContent = numpadValue;
+  if (numVal.length >= 4) return;
+  numVal += digit;
+  dom.answerValue.textContent = numVal;
   dom.answerValue.classList.remove('placeholder');
-  dom.npEnter.disabled = false;
+  dom.numOk.disabled = false;
 }
-
-function numpadDelete() {
-  if (!numpadValue) return;
-  numpadValue = numpadValue.slice(0, -1);
-  if (numpadValue === '') {
+function numDelete() {
+  if (!numVal) return;
+  numVal = numVal.slice(0, -1);
+  if (numVal === '') {
     dom.answerValue.textContent = '?';
     dom.answerValue.classList.add('placeholder');
-    dom.npEnter.disabled = true;
+    dom.numOk.disabled = true;
   } else {
-    dom.answerValue.textContent = numpadValue;
+    dom.answerValue.textContent = numVal;
   }
 }
 
-// Numpad-knappar
-document.getElementById('numpad').addEventListener('click', e => {
-  const btn = e.target.closest('[data-val]');
-  if (btn) numpadPress(btn.dataset.val);
+// Klick på sifferknappar
+document.getElementById('numRow').addEventListener('click', e => {
+  const btn = e.target.closest('[data-n]');
+  if (btn) numPress(btn.dataset.n);
 });
-dom.npDel.addEventListener('click', numpadDelete);
-dom.npEnter.addEventListener('click', onAnswer);
+dom.numDel.addEventListener('click', numDelete);
+dom.numOk.addEventListener('click', onAnswer);
 
-// Fysiskt tangentbord (desktop) — fungerar fortfarande
+// Fysiskt tangentbord (desktop fungerar fortfarande)
 document.addEventListener('keydown', e => {
   if (!state.questionActive || isGameOver()) return;
-  if (e.key >= '0' && e.key <= '9') { numpadPress(e.key); return; }
-  if (e.key === 'Backspace') { numpadDelete(); return; }
+  if (e.key >= '0' && e.key <= '9') { numPress(e.key); return; }
+  if (e.key === 'Backspace') { e.preventDefault(); numDelete(); return; }
   if (e.key === 'Enter') { onAnswer(); return; }
 });
 

@@ -21,7 +21,7 @@
         <div class="rules-section">
           <div class="rules-heading">✖️ Hur det fungerar</div>
           <p>En uppgift visas — t.ex. <strong>7 × 8 = ?</strong><br>
-          Tryck siffrorna på tangentbordet och tryck <strong>✓ Svara</strong>.<br>
+          Skriv svaret och tryck <strong>Enter</strong>.<br>
           Rätt svar ger poäng lika med produkten (7 × 8 = 56 poäng).<br>
           Fel svar ger inga poäng — nästa spelare fortsätter.</p>
         </div>
@@ -130,36 +130,43 @@
           <span class="qlabel" id="labelB"></span>
           <span class="qop">=</span>
           <div id="answerDisplay" class="answer-display">
-            <span id="answerValue" class="answer-value">?</span>
+            <span id="answerValue" class="answer-value placeholder">?</span>
           </div>
-          <!-- Dolt input för tangentbordsstöd på desktop -->
-          <input id="answerInput" class="answer-input-hidden" type="number"
-                 inputmode="numeric" autocomplete="off" tabindex="-1" disabled/>
         </div>
+
         <div id="termLabel" class="term-label">faktor × faktor = produkt</div>
+
         <div id="attemptsRow" class="attempts-row">
           <span class="attempt-dot" id="dot1"></span>
           <span class="attempt-dot" id="dot2"></span>
         </div>
 
-        <!-- EGET SIFFERTANGENTBORD -->
-        <div id="numpad" class="numpad hidden">
-          <div class="numpad-grid">
-            <button class="np-btn" data-val="7">7</button>
-            <button class="np-btn" data-val="8">8</button>
-            <button class="np-btn" data-val="9">9</button>
-            <button class="np-btn" data-val="4">4</button>
-            <button class="np-btn" data-val="5">5</button>
-            <button class="np-btn" data-val="6">6</button>
-            <button class="np-btn" data-val="1">1</button>
-            <button class="np-btn" data-val="2">2</button>
-            <button class="np-btn" data-val="3">3</button>
-            <button class="np-btn np-zero" data-val="0">0</button>
-            <button class="np-btn np-del" id="npDel">⌫</button>
-          </div>
-          <button class="np-enter" id="npEnter">✓ Svara</button>
+        <!-- SIFFERRAD — alltid synlig, inget systemtangentbord -->
+        <div id="numRow" class="num-row hidden">
+          <button class="num-btn" data-n="1">1</button>
+          <button class="num-btn" data-n="2">2</button>
+          <button class="num-btn" data-n="3">3</button>
+          <button class="num-btn" data-n="4">4</button>
+          <button class="num-btn" data-n="5">5</button>
+          <button class="num-btn" data-n="6">6</button>
+          <button class="num-btn" data-n="7">7</button>
+          <button class="num-btn" data-n="8">8</button>
+          <button class="num-btn" data-n="9">9</button>
+          <button class="num-btn" data-n="0">0</button>
+          <button class="num-btn num-del" id="numDel">⌫</button>
+          <button class="num-btn num-ok" id="numOk">✓</button>
         </div>
+
+        <!-- Dolt input för desktop-tangentbord -->
+        <input id="answerInput" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;" 
+               type="number" inputmode="numeric" autocomplete="off" disabled/>
+
       </div>
+
+      <div id="statusBar" class="status-bar panel">Välj inställningar ovan och tryck Starta!</div>
+      <button id="startBtn" class="start-btn">▶ Starta spelet</button>
+
+    </div>
 
       <div id="statusBar" class="status-bar panel">Välj inställningar ovan och tryck Starta!</div>
       <button id="startBtn" class="start-btn">▶ Starta spelet</button>
