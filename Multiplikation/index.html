@@ -21,7 +21,7 @@
         <div class="rules-section">
           <div class="rules-heading">✖️ Hur det fungerar</div>
           <p>En uppgift visas — t.ex. <strong>7 × 8 = ?</strong><br>
-          Skriv svaret och tryck <strong>Enter</strong>.<br>
+          Tryck siffrorna och sedan <strong>✓</strong>.<br>
           Rätt svar ger poäng lika med produkten (7 × 8 = 56 poäng).<br>
           Fel svar ger inga poäng — nästa spelare fortsätter.</p>
         </div>
@@ -41,14 +41,12 @@
     </div>
   </div>
 
-  <!-- HEADER med inställningar -->
+  <!-- HEADER -->
   <header class="app-header">
-
     <div class="header-left">
       <a href="../index.html" class="home-btn" title="Startsidan">🏠</a>
       <h1 class="app-title">✖️ Multiplikation 1000p</h1>
     </div>
-
     <div class="settings-row" id="settingsRow">
       <span class="setting-label">Spelare</span>
       <div class="setting-group" id="playerBtns">
@@ -58,20 +56,17 @@
         <button class="xs" data-players="5">5</button>
         <button class="xs" data-players="6">6</button>
       </div>
-
       <span class="setting-label">Mål</span>
       <div class="setting-group" id="goalBtns">
         <button class="xs" data-goal="500">500p</button>
         <button class="xs active-preset" data-goal="1000">1000p</button>
         <button class="xs" data-goal="2000">2000p</button>
       </div>
-
       <span class="setting-label">Chanser</span>
       <div class="setting-group" id="chancesBtns">
         <button class="xs active-preset" data-chances="1">1</button>
         <button class="xs" data-chances="2">2</button>
       </div>
-
       <span class="setting-label">Tabeller</span>
       <div class="setting-group" id="presetBtns">
         <button class="xs active-preset" data-preset="all">Alla</button>
@@ -80,7 +75,6 @@
       <div class="setting-group hidden" id="customTableRow"></div>
       <span id="settingsLockNote" class="settings-lock-note hidden">🔒 Ny omgång för att ändra</span>
     </div>
-
     <div class="header-right">
       <button id="rulesBtn" class="tool-btn rules-tool-btn">📖 Regler</button>
       <button id="resetBtn" class="tool-btn">🔄 Ny omgång</button>
@@ -88,12 +82,12 @@
       <label class="switch"><input type="checkbox" id="darkChk"/> 🌙</label>
       <button id="fsBtn" class="tool-btn">⛶</button>
     </div>
-
   </header>
 
   <!-- SPELET -->
   <div class="game-main">
 
+    <!-- VÄNSTER: Fråga -->
     <div class="question-column">
 
       <div id="activeBanner" class="active-banner panel">
@@ -106,13 +100,14 @@
       </div>
 
       <div id="questionBox" class="question-box panel">
+
         <div id="playerStage" class="player-stage">
           <div id="stageEmoji" class="stage-emoji">🦊</div>
           <div class="stage-meta">
             <div id="stageName" class="stage-name">P1</div>
             <div class="stage-score-row">
               <span id="stageScore" class="stage-score">0</span>
-              <span id="stageGoal"  class="stage-goal">/ 1 000 p</span>
+              <span id="stageGoal" class="stage-goal">/ 1 000 p</span>
             </div>
             <div class="stage-bar-track">
               <div id="stageBarFill" class="stage-bar-fill"></div>
@@ -141,7 +136,7 @@
           <span class="attempt-dot" id="dot2"></span>
         </div>
 
-        <!-- SIFFERRAD — alltid synlig, inget systemtangentbord -->
+        <!-- SIFFERRAD -->
         <div id="numRow" class="num-row hidden">
           <button class="num-btn" data-n="1">1</button>
           <button class="num-btn" data-n="2">2</button>
@@ -154,12 +149,8 @@
           <button class="num-btn" data-n="9">9</button>
           <button class="num-btn" data-n="0">0</button>
           <button class="num-btn num-del" id="numDel">⌫</button>
-          <button class="num-btn num-ok" id="numOk">✓</button>
+          <button class="num-btn num-ok" id="numOk" disabled>✓</button>
         </div>
-
-        <!-- Dolt input för desktop-tangentbord -->
-        <input id="answerInput" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;" 
-               type="number" inputmode="numeric" autocomplete="off" disabled/>
 
       </div>
 
@@ -168,11 +159,7 @@
 
     </div>
 
-      <div id="statusBar" class="status-bar panel">Välj inställningar ovan och tryck Starta!</div>
-      <button id="startBtn" class="start-btn">▶ Starta spelet</button>
-
-    </div>
-
+    <!-- HÖGER: Spelare -->
     <div class="side-column">
       <div class="panel players-panel">
         <div id="players" class="players"></div>

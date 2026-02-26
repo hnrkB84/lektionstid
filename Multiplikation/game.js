@@ -97,7 +97,6 @@ const dom = {
   factorB:        $('factorB'),
   labelA:         $('labelA'),
   labelB:         $('labelB'),
-  answerInput:    $('answerInput'),   // dolt, för desktop
   answerDisplay:  $('answerDisplay'),
   answerValue:    $('answerValue'),
   numRow:         $('numRow'),
