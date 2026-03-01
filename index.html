@@ -351,7 +351,7 @@
         <div class="card-arrow">→</div>
       </a>
 
-      <a class="game-card race" href="multiplikationsrace/index.html">
+      <a class="game-card race" href="Multiplikationsrace/index.html">
         <div class="card-icon">🏁</div>
         <div class="card-title">Multiplikationsrace</div>
         <div class="card-desc">Tävla mot klockan —<br>tre spellägen, solo</div>
@@ -359,7 +359,7 @@
       </a>
     </div>
 
-    <footer class="footer">Lektionstid · GDPR-OK · Inget konto krävs · synpunkter/tips: hnrkB84@outlook.com</footer>
+    <footer class="footer">Lektionstid · GDPR-OK · Inget konto krävs · synpunkter/tips: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="21494f534a631915614e54554d4e4e4a0f424e4c">[email&#160;protected]</a></footer>
   </div>
 
 
@@ -449,7 +449,7 @@
         <div class="about-box">
           Lektionstid är ett ideellt hobbyprojekt skapat av Henrik Börjesson, IT-tekniker. Sidan är helt gratis och öppen för alla att använda.<br><br>
           Har du förslag på förbättringar, idéer på nya spel eller har du hittat en bugg? Hör gärna av dig! 📬<br><br>
-          <a href="/cdn-cgi/l/email-protection#7f17110d143d474b3f100a0b13101014511c1012"><span class="__cf_email__" data-cfemail="aec6c0dcc5ec969aeec1dbdac2c1c1c580cdc1c3">[email&#160;protected]</span></a>
+          <a href="mailto:hnrkB84@outlook.com">hnrkB84@outlook.com</a>
         </div>
       </div>
 
@@ -476,6 +476,11 @@
     const infoBtn  = document.getElementById('infoBtn');
     const closeBtn = document.getElementById('modalClose');
 
-    infoBtn.addEventListener('click', () => backdrop.classList.add('open'));
+    infoBtn.addEventListener('click',  () => backdrop.classList.add('open'));
     closeBtn.addEventListener('click', () => backdrop.classList.remove('open'));
-    backdrop.ad
+    backdrop.addEventListener('click', e => {
+      if (e.target === backdrop) backdrop.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
