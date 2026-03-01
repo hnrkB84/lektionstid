@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multiplikationsrace</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- REGLER-POPUP -->
+<div id="rulesOverlay" class="rules-overlay hidden">
+  <div class="rules-box">
+    <button id="rulesClose" class="rules-close">✕</button>
+    <div class="rules-title">📖 Regler — Multiplikationsrace</div>
+    <div class="rules-body">
+      <div class="rules-section">
+        <div class="rules-heading">⏱️ Läge 1 — Tidsattack</div>
+        <p>Svara på så många uppgifter som möjligt på den valda tiden.<br>
+        Varje rätt svar ger poäng lika med produkten (t.ex. 7 × 8 = <strong>56 poäng</strong>).<br>
+        Fel svar ger inga poäng men spelet fortsätter direkt.<br>
+        Highscore sparas — kan du slå ditt rekord?</p>
+      </div>
+      <div class="rules-section">
+        <div class="rules-heading">📉 Läge 2 — Nedräkning</div>
+        <p>Börja med ett startpoäng (t.ex. <strong>2 000 poäng</strong>).<br>
+        Varje rätt svar drar av produkten. Målet: nolla poängen så snabbt som möjligt!<br>
+        Highscore = kortast tid. Snabbast vinner!</p>
+      </div>
+      <div class="rules-section">
+        <div class="rules-heading">🎯 Läge 3 — Nivåläge</div>
+        <p>Samla ihop en målsumma <em>innan</em> timern tar slut.<br>
+        Lyckas du → ny nivå med högre mål men lite mer tid.<br>
+        Missar du → spelet är över. Highscore = antal klarade nivåer.</p>
+        <p>Nivå 1 = 150p på 30s · Nivå 2 = 210p på 35s · Nivå 3 = 295p på 40s…</p>
+      </div>
+      <div class="rules-section">
+        <div class="rules-heading">🎮 Karaktär</div>
+        <p>Tryck på din karaktär för att byta emoji. Den reagerar på rätt och fel svar!</p>
+      </div>
+      <div class="rules-section">
+        <div class="rules-heading">✖️ Hur man svarar</div>
+        <p>Tryck siffrorna och sedan <strong>✓</strong>. Inget systemtangentbord! På skrivbord: siffertangenter + Enter.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-left">
+    <a href="../index.html" class="home-btn" title="Startsidan">🏠</a>
+    <h1 class="app-title">🏁 Multiplikationsrace</h1>
+  </div>
+
+  <div class="settings-row">
+    <span class="setting-label">Läge</span>
+    <div class="setting-group" id="modeBtns">
+      <button class="xs active-preset" data-mode="tidsattack">⏱ Tidsattack</button>
+      <button class="xs" data-mode="nedrakning">📉 Nedräkning</button>
+      <button class="xs" data-mode="niva">🎯 Nivå</button>
+    </div>
+
+    <span class="setting-label">Tabeller</span>
+    <div class="setting-group" id="presetBtns">
+      <button class="xs active-preset" data-preset="all">Alla</button>
+      <button class="xs" data-preset="custom">Välj</button>
+    </div>
+    <div class="setting-group hidden" id="customTableRow"></div>
+
+    <span class="setting-label" id="timeLabelEl">Tid</span>
+    <div class="setting-group" id="timeBtns">
+      <button class="xs" data-time="30">30s</button>
+      <button class="xs active-preset" data-time="60">60s</button>
+      <button class="xs" data-time="90">90s</button>
+    </div>
+
+    <span class="setting-label hidden" id="startScoreLabelEl">Start</span>
+    <div class="setting-group hidden" id="startScoreBtns">
+      <button class="xs" data-start="1000">1000p</button>
+      <button class="xs active-preset" data-start="2000">2000p</button>
+      <button class="xs" data-start="3000">3000p</button>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button id="rulesBtn" class="tool-btn rules-tool-btn">📖 Regler</button>
+    <button id="resetBtn" class="tool-btn">🔄 Ny omgång</button>
+    <label class="switch"><input type="checkbox" id="muteChk" checked/> 🔊</label>
+    <label class="switch"><input type="checkbox" id="darkChk"/> 🌙</label>
+    <button id="fsBtn" class="tool-btn">⛶</button>
+  </div>
+</header>
+
+<!-- SPELET -->
+<div class="game-main">
+  <div class="question-column">
+
+    <!-- RACE HUD: Karaktär | Timer | Poäng -->
+    <div class="race-hud panel">
+
+      <!-- Karaktär -->
+      <div class="hud-character">
+        <span id="characterEmoji" class="character-emoji" title="Tryck för att byta">🏎️</span>
+        <span class="char-label">Förare</span>
+      </div>
+
+      <!-- Timer (tidsattack + nivå) -->
+      <div class="hud-timer" id="hudTimerCell">
+        <div class="hud-label" id="timerTopLabel">Tid kvar</div>
+        <div id="timerDisplay" class="hud-timer-value">60</div>
+        <div class="timer-track">
+          <div id="timerFill" class="timer-fill" style="width:100%"></div>
+        </div>
+        <!-- Level bar (bara i nivåläge) -->
+        <div class="hud-level-row" id="levelRow">
+          <span id="levelNum" class="hud-level-num">Nivå 1</span>
+          <div class="level-track">
+            <div id="levelFill" class="level-fill" style="width:0%"></div>
+          </div>
+          <span id="levelGoalText" class="hud-level-goal">0/150p</span>
+        </div>
+      </div>
+
+      <!-- Poäng (tidsattack + nivå) -->
+      <div class="hud-score" id="hudScoreCell">
+        <div class="hud-label" id="scoreLabelEl">Poäng</div>
+        <div id="scoreDisplay" class="hud-score-value">0</div>
+
+        <!-- Nivåläge: stor tydlig progress -->
+        <div class="hud-level-progress" id="levelProgress">
+          <div class="hud-level-name" id="levelName">Nivå 1</div>
+          <div class="hud-level-fraction">
+            <span id="levelCurrent" class="hud-level-current">0</span>
+            <span class="hud-level-sep">/</span>
+            <span id="levelGoalNum" class="hud-level-goal-num">150</span>
+          </div>
+          <div class="hud-level-unit">poäng</div>
+        </div>
+      </div>
+
+      <!-- Nedräkning: poäng kvar + tid -->
+      <div class="hud-countdown" id="hudCountdown">
+        <div class="hud-label">Poäng kvar</div>
+        <div id="countdownDisplay" class="hud-countdown-value">2000</div>
+        <div class="hud-label" style="margin-top:4px">Tid</div>
+        <div id="elapsed" class="hud-elapsed">0:00</div>
+      </div>
+
+    </div>
+
+    <!-- FRÅGA -->
+    <div id="questionBox" class="question-box panel">
+      <div class="question-display">
+        <span id="factorA" class="qnum">–</span>
+        <span class="qop">×</span>
+        <span id="factorB" class="qnum">–</span>
+        <span class="qop">=</span>
+        <div id="answerDisplay" class="answer-display">
+          <span id="answerValue" class="answer-value placeholder">?</span>
+        </div>
+      </div>
+
+      <!-- Sifferrad -->
+      <div id="numRow" class="num-row hidden">
+        <button class="num-btn" data-n="1">1</button>
+        <button class="num-btn" data-n="2">2</button>
+        <button class="num-btn" data-n="3">3</button>
+        <button class="num-btn" data-n="4">4</button>
+        <button class="num-btn" data-n="5">5</button>
+        <button class="num-btn" data-n="6">6</button>
+        <button class="num-btn" data-n="7">7</button>
+        <button class="num-btn" data-n="8">8</button>
+        <button class="num-btn" data-n="9">9</button>
+        <button class="num-btn" data-n="0">0</button>
+        <button class="num-btn num-del" id="numDel">⌫</button>
+        <button class="num-btn num-ok" id="numOk" disabled>✓</button>
+      </div>
+    </div>
+
+    <div id="statusBar" class="status-bar panel">Välj läge och tryck Starta!</div>
+    <button id="startBtn" class="start-btn">🏁 Starta racet</button>
+
+  </div>
+
+  <!-- HÖGER: Stats + Highscore -->
+  <div class="side-column">
+    <div class="stats-panel panel">
+
+      <div class="stat-block">
+        <div class="stat-label">Rätt svar</div>
+        <div class="stat-value muted"><span id="correctCount">0</span></div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-label">Bästa svit</div>
+        <div class="stat-value muted"><span id="bestStreak">0</span> i rad</div>
+      </div>
+
+      <div class="stat-divider"></div>
+
+      <div>
+        <div class="hs-title" id="hsTitle">🏆 Highscore (60s)</div>
+        <div class="hs-list" id="hsList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="emojiPicker" class="emoji-picker hidden"></div>
+<canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+<script src="game.js"></script>
+</body>
+</html>

@@ -22,6 +22,8 @@
       --c3g:     rgba(180,83,9,.15);
       --c4:      #8b5cf6;
       --c4g:     rgba(139,92,246,.15);
+      --c5:      #10b981;
+      --c5g:     rgba(16,185,129,.15);
     }
     html[data-theme="dark"] {
       --bg:      #0f172a;
@@ -34,6 +36,7 @@
       --c2g:     rgba(59,130,246,.12);
       --c3g:     rgba(180,83,9,.12);
       --c4g:     rgba(139,92,246,.12);
+      --c5g:     rgba(16,185,129,.12);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -101,6 +104,7 @@
     .game-card.multi  { --cc: var(--c2); --cg: var(--c2g); }
     .game-card.koda   { --cc: var(--c3); --cg: var(--c3g); }
     .game-card.snurra { --cc: var(--c4); --cg: var(--c4g); }
+    .game-card.race   { --cc: var(--c5); --cg: var(--c5g); }
     .game-card:hover {
       border-color: var(--cc);
       box-shadow: 0 0 0 3px var(--cg), var(--shadow);
@@ -346,9 +350,16 @@
         <div class="card-desc">Slumpväljare — låt<br>hjulet bestämma!</div>
         <div class="card-arrow">→</div>
       </a>
+
+      <a class="game-card race" href="multiplikationsrace/index.html">
+        <div class="card-icon">🏁</div>
+        <div class="card-title">Multiplikationsrace</div>
+        <div class="card-desc">Tävla mot klockan —<br>tre spellägen, solo</div>
+        <div class="card-arrow">→</div>
+      </a>
     </div>
 
-    <footer class="footer">Lektionstid · GDPR-OK · Inget konto krävs</footer>
+    <footer class="footer">Lektionstid · GDPR-OK · Inget konto krävs · synpunkter/tips: hnrkB84@outlook.com</footer>
   </div>
 
 
@@ -358,7 +369,7 @@
       <button class="modal-close" id="modalClose" title="Stäng">✕</button>
 
       <h2>🎓 Om Lektionstid</h2>
-      <p class="modal-tagline">Fyra gratis spel och verktyg för klassrummet — inget konto, ingen app att installera.</p>
+      <p class="modal-tagline">Fem gratis spel och verktyg för klassrummet — inget konto, ingen app att installera.</p>
 
       <!-- Spelen -->
       <div class="modal-section">
@@ -393,6 +404,14 @@
           <div class="game-row-body">
             <div class="game-row-title">Snurran — Slumpväljare</div>
             <div class="game-row-desc">Snurra hjulet och låt slumpen bestämma! Välj bland de färdiga siffrorna, eller klistra in egna ord och namn — t.ex. klassens elever för att slumpa vem som ska svara härnäst.</div>
+          </div>
+        </div>
+
+        <div class="game-row">
+          <div class="game-row-icon">🏁</div>
+          <div class="game-row-body">
+            <div class="game-row-title">Multiplikationsrace</div>
+            <div class="game-row-desc">Träna multiplikationstabellerna solo i tre lägen: <strong style="color:var(--c5)">Tidsattack</strong> (samla så många poäng som möjligt på 30–90 sek), <strong style="color:var(--c5)">Nedräkning</strong> (nolla en poängsumma så snabbt du kan) och <strong style="color:var(--c5)">Nivåläge</strong> (klara allt högre mål innan timern tar slut). Highscore sparas lokalt.</div>
           </div>
         </div>
       </div>
@@ -430,7 +449,7 @@
         <div class="about-box">
           Lektionstid är ett ideellt hobbyprojekt skapat av Henrik Börjesson, IT-tekniker. Sidan är helt gratis och öppen för alla att använda.<br><br>
           Har du förslag på förbättringar, idéer på nya spel eller har du hittat en bugg? Hör gärna av dig! 📬<br><br>
-          <a href="mailto:hnrkB84@outlook.com">hnrkB84@outlook.com</a>
+          <a href="/cdn-cgi/l/email-protection#7f17110d143d474b3f100a0b13101014511c1012"><span class="__cf_email__" data-cfemail="aec6c0dcc5ec969aeec1dbdac2c1c1c580cdc1c3">[email&#160;protected]</span></a>
         </div>
       </div>
 
@@ -438,7 +457,7 @@
   </div>
 
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     /* Dark mode */
     const darkBtn = document.getElementById('darkBtn');
     const html = document.documentElement;
@@ -459,9 +478,4 @@
 
     infoBtn.addEventListener('click', () => backdrop.classList.add('open'));
     closeBtn.addEventListener('click', () => backdrop.classList.remove('open'));
-    backdrop.addEventListener('click', e => { if (e.target === backdrop) backdrop.classList.remove('open'); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') backdrop.classList.remove('open'); });
-  </script>
-
-</body>
-</html>
+    backdrop.ad
