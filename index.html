@@ -14,16 +14,11 @@
       --card:    #ffffff;
       --grid:    #e2e8f0;
       --shadow:  0 4px 24px rgba(2,6,23,.09);
-      --c1:      #f97316;
-      --c1g:     rgba(249,115,22,.15);
-      --c2:      #3b82f6;
-      --c2g:     rgba(59,130,246,.15);
-      --c3:      #b45309;
-      --c3g:     rgba(180,83,9,.15);
-      --c4:      #8b5cf6;
-      --c4g:     rgba(139,92,246,.15);
-      --c5:      #10b981;
-      --c5g:     rgba(16,185,129,.15);
+      --c1:      #f97316;  --c1g: rgba(249,115,22,.15);
+      --c2:      #3b82f6;  --c2g: rgba(59,130,246,.15);
+      --c3:      #b45309;  --c3g: rgba(180,83,9,.15);
+      --c4:      #8b5cf6;  --c4g: rgba(139,92,246,.15);
+      --c5:      #10b981;  --c5g: rgba(16,185,129,.15);
     }
     html[data-theme="dark"] {
       --bg:      #0f172a;
@@ -32,19 +27,18 @@
       --card:    #1e293b;
       --grid:    #334155;
       --shadow:  0 6px 28px rgba(0,0,0,.35);
-      --c1g:     rgba(249,115,22,.12);
-      --c2g:     rgba(59,130,246,.12);
-      --c3g:     rgba(180,83,9,.12);
-      --c4g:     rgba(139,92,246,.12);
-      --c5g:     rgba(16,185,129,.12);
+      --c1g: rgba(249,115,22,.12);
+      --c2g: rgba(59,130,246,.12);
+      --c3g: rgba(180,83,9,.12);
+      --c4g: rgba(139,92,246,.12);
+      --c5g: rgba(16,185,129,.12);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       height: 100dvh; overflow: hidden;
       font-family: 'Nunito', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       transition: background .3s;
     }
 
@@ -52,254 +46,139 @@
       height: 100dvh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: clamp(28px, 5vh, 56px);
+      gap: clamp(20px, 4vh, 48px);
       padding: 24px 16px;
     }
 
     .header { text-align: center; }
-    .logo {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 900;
-      color: var(--text);
-      letter-spacing: -.5px;
-      line-height: 1.1;
-    }
-    .tagline {
-      margin-top: 6px;
-      font-size: clamp(.82rem, 1.6vw, 1rem);
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: .5px;
-    }
+    .logo { font-size: clamp(2rem,5vw,3.2rem); font-weight: 900; color: var(--text); letter-spacing: -.5px; line-height: 1.1; }
+    .tagline { margin-top: 6px; font-size: clamp(.82rem,1.6vw,1rem); font-weight: 600; color: var(--muted); letter-spacing: .5px; }
 
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: clamp(16px, 3vw, 36px);
-      align-items: stretch;
-    }
-
+    /* CARDS */
+    .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px,2.5vw,30px); align-items: stretch; }
     .game-card {
       display: flex; flex-direction: column; align-items: center;
-      gap: 0;
-      width: clamp(160px, 22vw, 260px);
-      background: var(--card);
-      border: 2px solid var(--grid);
-      border-radius: 22px;
-      padding: clamp(20px, 3.5vw, 38px) clamp(16px, 2.5vw, 30px);
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      transition: transform .2s cubic-bezier(.34,1.56,.64,1),
-                  border-color .2s, box-shadow .2s;
-      position: relative;
-      overflow: hidden;
+      width: clamp(140px,18vw,230px);
+      background: var(--card); border: 2px solid var(--grid); border-radius: 22px;
+      padding: clamp(18px,3vw,34px) clamp(14px,2vw,26px);
+      box-shadow: var(--shadow); cursor: pointer; text-decoration: none; color: inherit;
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1), border-color .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
     }
-    .game-card:hover { transform: translateY(-6px) scale(1.025); }
+    .game-card:hover  { transform: translateY(-6px) scale(1.025); }
     .game-card:active { transform: translateY(-2px) scale(1.01); }
-
     .game-card.dice   { --cc: var(--c1); --cg: var(--c1g); }
     .game-card.multi  { --cc: var(--c2); --cg: var(--c2g); }
     .game-card.koda   { --cc: var(--c3); --cg: var(--c3g); }
     .game-card.snurra { --cc: var(--c4); --cg: var(--c4g); }
     .game-card.race   { --cc: var(--c5); --cg: var(--c5g); }
-    .game-card:hover {
-      border-color: var(--cc);
-      box-shadow: 0 0 0 3px var(--cg), var(--shadow);
-    }
-
+    .game-card:hover  { border-color: var(--cc); box-shadow: 0 0 0 3px var(--cg), var(--shadow); }
     .card-icon {
-      font-size: clamp(3rem, 7vw, 5rem);
-      line-height: 1;
-      margin-bottom: clamp(12px, 2vw, 20px);
+      font-size: clamp(2.6rem,6vw,4.4rem); line-height: 1;
+      margin-bottom: clamp(10px,1.8vw,18px);
       filter: drop-shadow(0 4px 12px rgba(0,0,0,.12));
       transition: transform .25s cubic-bezier(.34,1.56,.64,1);
     }
     .game-card:hover .card-icon { transform: scale(1.12) rotate(-4deg); }
-
-    .card-title {
-      font-size: clamp(.95rem, 2vw, 1.3rem);
-      font-weight: 900;
-      color: var(--cc);
-      text-align: center;
-      letter-spacing: -.2px;
-      margin-bottom: 6px;
-    }
-    .card-desc {
-      font-size: clamp(.68rem, 1.2vw, .85rem);
-      font-weight: 600;
-      color: var(--muted);
-      text-align: center;
-      line-height: 1.45;
-    }
-
+    .card-title { font-size: clamp(.88rem,1.8vw,1.2rem); font-weight: 900; color: var(--cc); text-align: center; letter-spacing: -.2px; margin-bottom: 6px; }
+    .card-desc  { font-size: clamp(.64rem,1.1vw,.82rem); font-weight: 600; color: var(--muted); text-align: center; line-height: 1.45; }
     .card-arrow {
-      margin-top: clamp(14px, 2vw, 24px);
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--cg);
-      border: 1.5px solid var(--cc);
+      margin-top: clamp(12px,1.8vw,22px); width: 34px; height: 34px; border-radius: 50%;
+      background: var(--cg); border: 1.5px solid var(--cc);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      color: var(--cc);
-      transition: background .2s, transform .2s;
+      font-size: 1rem; color: var(--cc); transition: background .2s, transform .2s;
     }
-    .game-card:hover .card-arrow {
-      background: var(--cc);
-      color: #fff;
-      transform: translateX(3px);
-    }
+    .game-card:hover .card-arrow { background: var(--cc); color: #fff; transform: translateX(3px); }
 
-    /* Top buttons */
-    .top-btns {
-      position: fixed; top: 14px; right: 16px;
-      display: flex; gap: 8px;
-      z-index: 50;
-    }
+    /* TOP BUTTONS */
+    .top-btns { position: fixed; top: 14px; right: 16px; display: flex; gap: 8px; z-index: 50; }
     .icon-btn {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--card);
-      border: 1.5px solid var(--grid);
-      font-size: 1rem;
-      cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--card); border: 1.5px solid var(--grid);
+      font-size: 1rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow);
-      transition: background .2s, transform .1s;
+      box-shadow: var(--shadow); transition: background .2s, transform .1s;
     }
     .icon-btn:hover { transform: scale(1.1); }
 
-    .footer {
-      font-size: .72rem;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: .5px;
-      text-transform: uppercase;
-    }
+    /* FOOTER */
+    .footer { font-size: .72rem; font-weight: 600; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; text-align: center; }
+    .footer a { color: var(--muted); text-decoration: none; font-weight: 700; }
+    .footer a:hover { color: var(--text); text-decoration: underline; }
 
-    /* ══ MODAL ══ */
+    /* MODAL BASE */
     .modal-backdrop {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.5);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.5); backdrop-filter: blur(4px);
+      z-index: 100; align-items: center; justify-content: center; padding: 16px;
     }
     .modal-backdrop.open { display: flex; }
-
     .modal {
-      background: var(--card);
-      border: 1.5px solid var(--grid);
-      border-radius: 24px;
-      box-shadow: 0 24px 64px rgba(0,0,0,.25);
-      width: min(600px, 100%);
-      max-height: 90dvh;
-      overflow-y: auto;
-      padding: clamp(24px, 5vw, 44px);
-      position: relative;
+      background: var(--card); border: 1.5px solid var(--grid);
+      border-radius: 24px; box-shadow: 0 24px 64px rgba(0,0,0,.25);
+      width: min(600px,100%); max-height: 90dvh; overflow-y: auto;
+      padding: clamp(24px,5vw,44px); position: relative;
       animation: popIn .25s cubic-bezier(.34,1.56,.64,1);
     }
-    @keyframes popIn {
-      from { transform: scale(.88); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
-
+    @keyframes popIn { from { transform: scale(.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .modal-close {
       position: absolute; top: 16px; right: 18px;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--bg);
-      border: 1.5px solid var(--grid);
-      font-size: 1rem;
-      cursor: pointer;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg); border: 1.5px solid var(--grid);
+      font-size: 1rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      color: var(--muted);
-      transition: background .15s, color .15s;
+      transition: background .15s;
     }
-    .modal-close:hover { background: var(--grid); color: var(--text); }
-
-    .modal h2 {
-      font-size: 1.5rem;
-      font-weight: 900;
-      margin-bottom: 4px;
-    }
-    .modal-tagline {
-      font-size: .85rem;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 24px;
-      line-height: 1.4;
-    }
-
+    .modal-close:hover { background: var(--grid); }
+    .modal h2 { font-size: clamp(1.2rem,3vw,1.6rem); font-weight: 900; margin-bottom: 8px; }
+    .modal-tagline { font-size: .88rem; font-weight: 600; color: var(--muted); margin-bottom: 20px; }
     .modal-section { margin-bottom: 20px; }
-    .modal-section h3 {
-      font-size: .72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .game-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: var(--bg);
-      border: 1.5px solid var(--grid);
-      margin-bottom: 8px;
-    }
+    .modal-section h3 { font-size: .95rem; font-weight: 900; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+    .game-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 1.5px solid var(--grid); margin-bottom: 8px; }
     .game-row-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
     .game-row-title { font-size: .95rem; font-weight: 900; margin-bottom: 3px; }
-    .game-row-desc { font-size: .8rem; font-weight: 600; color: var(--muted); line-height: 1.5; }
-
+    .game-row-desc  { font-size: .8rem; font-weight: 600; color: var(--muted); line-height: 1.5; }
     .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 6px 12px; border-radius: 99px;
-      font-size: .78rem; font-weight: 700;
-      background: var(--bg); border: 1.5px solid var(--grid); color: var(--text);
-    }
-    .pill.green  { background: rgba(34,197,94,.1); border-color: rgba(34,197,94,.4); color: #16a34a; }
+    .pill { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 99px; font-size: .78rem; font-weight: 700; background: var(--bg); border: 1.5px solid var(--grid); color: var(--text); }
+    .pill.green  { background: rgba(34,197,94,.1);  border-color: rgba(34,197,94,.4);  color: #16a34a; }
     .pill.blue   { background: rgba(59,130,246,.1); border-color: rgba(59,130,246,.4); color: #2563eb; }
     .pill.purple { background: rgba(139,92,246,.1); border-color: rgba(139,92,246,.4); color: #7c3aed; }
     html[data-theme="dark"] .pill.green  { color: #4ade80; }
     html[data-theme="dark"] .pill.blue   { color: #60a5fa; }
     html[data-theme="dark"] .pill.purple { color: #a78bfa; }
-
-    .modal-note {
-      margin-top: 12px;
-      font-size: .8rem; font-weight: 600;
-      color: var(--muted); line-height: 1.55;
-    }
-
+    .modal-note { margin-top: 12px; font-size: .8rem; font-weight: 600; color: var(--muted); line-height: 1.55; }
     .modal-divider { height: 1px; background: var(--grid); margin: 20px 0; }
-
-    .cookie-box {
-      padding: 14px 16px; border-radius: 14px;
-      background: rgba(249,115,22,.07);
-      border: 1.5px solid rgba(249,115,22,.3);
-      font-size: .8rem; font-weight: 600;
-      color: var(--text); line-height: 1.6;
-    }
+    .cookie-box { padding: 14px 16px; border-radius: 14px; background: rgba(249,115,22,.07); border: 1.5px solid rgba(249,115,22,.3); font-size: .8rem; font-weight: 600; color: var(--text); line-height: 1.6; }
     .cookie-box strong { color: #f97316; }
-
-    .about-box {
-      padding: 14px 16px; border-radius: 14px;
-      background: var(--bg); border: 1.5px solid var(--grid);
-      font-size: .8rem; font-weight: 600;
-      color: var(--muted); line-height: 1.65;
-    }
-    .about-name { font-size: .95rem; font-weight: 900; color: var(--text); margin-bottom: 5px; }
+    .about-box { padding: 14px 16px; border-radius: 14px; background: var(--bg); border: 1.5px solid var(--grid); font-size: .8rem; font-weight: 600; color: var(--muted); line-height: 1.65; }
     .about-box a { color: var(--c2); text-decoration: none; font-weight: 700; }
     .about-box a:hover { text-decoration: underline; }
+
+    /* QR MODAL */
+    .qr-modal { width: min(460px,100%); }
+    .qr-game-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+    .qr-game-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 14px; border-radius: 12px;
+      background: var(--bg); border: 2px solid var(--grid);
+      cursor: pointer; text-align: left; width: 100%;
+      font-family: 'Nunito', system-ui, sans-serif; color: var(--text);
+      transition: border-color .15s, background .15s, transform .1s;
+    }
+    .qr-game-btn:hover  { border-color: var(--qc); transform: translateX(3px); }
+    .qr-game-btn.active { border-color: var(--qc); background: var(--card); box-shadow: 0 0 0 3px var(--qcg); }
+    .qg-icon { font-size: 1.5rem; line-height: 1; }
+    .qg-name { font-size: .92rem; font-weight: 900; }
+    .qg-url  { font-size: .7rem; color: var(--muted); font-weight: 600; }
+
+    .qr-result { display: none; flex-direction: column; align-items: center; gap: 14px; padding: 18px; border-radius: 14px; background: var(--bg); border: 1.5px solid var(--grid); }
+    .qr-result.visible { display: flex; }
+    #qrBox img, #qrBox canvas { border-radius: 8px; display: block; }
+    .qr-url-row { display: flex; align-items: center; gap: 8px; width: 100%; max-width: 340px; }
+    .qr-url-text { flex: 1; padding: 7px 11px; border-radius: 8px; border: 1.5px solid var(--grid); background: var(--card); font-size: .75rem; font-weight: 700; color: var(--muted); font-family: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .qr-copy-btn { padding: 7px 14px; border-radius: 8px; background: var(--c2); color: #fff; border: none; font-weight: 800; font-size: .8rem; cursor: pointer; font-family: inherit; white-space: nowrap; transition: opacity .15s, transform .1s; }
+    .qr-copy-btn:hover { opacity: .85; }
+    .qr-hint { font-size: .73rem; font-weight: 600; color: var(--muted); text-align: center; }
 
     @media (max-width: 860px) {
       html, body { overflow-y: auto; }
@@ -312,6 +191,7 @@
 <body>
 
   <div class="top-btns">
+    <button class="icon-btn" id="qrBtn"   title="Dela med klass — QR-kod">📲</button>
     <button class="icon-btn" id="infoBtn" title="Om spelen">ℹ️</button>
     <button class="icon-btn" id="darkBtn" title="Mörkt läge">🌙</button>
   </div>
@@ -323,35 +203,31 @@
     </header>
 
     <div class="cards">
-      <a class="game-card dice" href="Tarningsspel/index.html">
+      <a class="game-card dice"   href="Tarningsspel/index.html">
         <div class="card-icon">🎲</div>
         <div class="card-title">Tärningsspelet</div>
         <div class="card-desc">Träna addition på ett<br>100-rutigt bräde</div>
         <div class="card-arrow">→</div>
       </a>
-
-      <a class="game-card multi" href="Multiplikation/index.html">
+      <a class="game-card multi"  href="Multiplikation/index.html">
         <div class="card-icon">✖️</div>
         <div class="card-title">Multiplikation</div>
         <div class="card-desc">Träna multiplikations&shy;tabellen<br>och samla 1 000 poäng</div>
         <div class="card-arrow">→</div>
       </a>
-
-      <a class="game-card koda" href="Ordjakten/index.html">
+      <a class="game-card koda"   href="Ordjakten/index.html">
         <div class="card-icon">🔐</div>
         <div class="card-title">Kodknäckaren</div>
         <div class="card-desc">Gissa ordet — rädda<br>roboten från att falla isär</div>
         <div class="card-arrow">→</div>
       </a>
-
       <a class="game-card snurra" href="Snurra/index.html">
         <div class="card-icon">🎡</div>
         <div class="card-title">Snurran</div>
         <div class="card-desc">Slumpväljare — låt<br>hjulet bestämma!</div>
         <div class="card-arrow">→</div>
       </a>
-
-      <a class="game-card race" href="Multiplikationsrace/index.html">
+      <a class="game-card race"   href="Multiplikationsrace/index.html">
         <div class="card-icon">🏁</div>
         <div class="card-title">Multiplikationsrace</div>
         <div class="card-desc">Tävla mot klockan —<br>tre spellägen, solo</div>
@@ -359,22 +235,59 @@
       </a>
     </div>
 
-    <footer class="footer">Lektionstid · GDPR-OK · Inget konto krävs · synpunkter/tips: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="21494f534a631915614e54554d4e4e4a0f424e4c">[email&#160;protected]</a></footer>
+    <footer class="footer">
+      Lektionstid · GDPR-OK · Inget konto krävs · synpunkter/tips:
+      <a href="mailto:hnrkB84@outlook.com">hnrkB84@outlook.com</a>
+    </footer>
   </div>
 
 
-  <!-- ══ INFO MODAL ══ -->
+  <!-- QR MODAL -->
+  <div class="modal-backdrop" id="qrBackdrop">
+    <div class="modal qr-modal" role="dialog" aria-label="Dela QR-kod">
+      <button class="modal-close" id="qrClose">✕</button>
+      <h2>📲 Dela med klassen</h2>
+      <p class="modal-tagline">Välj ett spel — visa QR-koden på projektorn så kan eleverna scanna med kameran och spela direkt.</p>
+
+      <div class="qr-game-list">
+        <button class="qr-game-btn" style="--qc:var(--c1);--qcg:var(--c1g)" data-url="https://hnrkb84.github.io/lektionstid/Tarningsspel/index.html">
+          <span class="qg-icon">🎲</span><span><div class="qg-name">Tärningsspelet</div><div class="qg-url">…/Tarningsspel/</div></span>
+        </button>
+        <button class="qr-game-btn" style="--qc:var(--c2);--qcg:var(--c2g)" data-url="https://hnrkb84.github.io/lektionstid/Multiplikation/index.html">
+          <span class="qg-icon">✖️</span><span><div class="qg-name">Multiplikation</div><div class="qg-url">…/Multiplikation/</div></span>
+        </button>
+        <button class="qr-game-btn" style="--qc:var(--c3);--qcg:var(--c3g)" data-url="https://hnrkb84.github.io/lektionstid/Ordjakten/index.html">
+          <span class="qg-icon">🔐</span><span><div class="qg-name">Kodknäckaren</div><div class="qg-url">…/Ordjakten/</div></span>
+        </button>
+        <button class="qr-game-btn" style="--qc:var(--c4);--qcg:var(--c4g)" data-url="https://hnrkb84.github.io/lektionstid/Snurra/index.html">
+          <span class="qg-icon">🎡</span><span><div class="qg-name">Snurran</div><div class="qg-url">…/Snurra/</div></span>
+        </button>
+        <button class="qr-game-btn" style="--qc:var(--c5);--qcg:var(--c5g)" data-url="https://hnrkb84.github.io/lektionstid/Multiplikationsrace/index.html">
+          <span class="qg-icon">🏁</span><span><div class="qg-name">Multiplikationsrace</div><div class="qg-url">…/Multiplikationsrace/</div></span>
+        </button>
+      </div>
+
+      <div class="qr-result" id="qrResult">
+        <div id="qrBox"></div>
+        <div class="qr-url-row">
+          <div class="qr-url-text" id="qrUrlText"></div>
+          <button class="qr-copy-btn" id="qrCopyBtn">📋 Kopiera</button>
+        </div>
+        <div class="qr-hint">Visa på projektor — eleverna scannar med telefonens kamera</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- INFO MODAL -->
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal" role="dialog" aria-modal="true" aria-label="Om Lektionstid">
-      <button class="modal-close" id="modalClose" title="Stäng">✕</button>
-
+      <button class="modal-close" id="modalClose">✕</button>
       <h2>🎓 Om Lektionstid</h2>
       <p class="modal-tagline">Fem gratis spel och verktyg för klassrummet — inget konto, ingen app att installera.</p>
 
-      <!-- Spelen -->
       <div class="modal-section">
         <h3>🎮 Spelen</h3>
-
         <div class="game-row">
           <div class="game-row-icon">🎲</div>
           <div class="game-row-body">
@@ -382,7 +295,6 @@
             <div class="game-row-desc">Spela på ett 100-rutigt bräde och träna addition. Kan spelas ensam eller av flera elever runt samma enhet — fungerar lika bra projicerat på storskärm med hela klassen.</div>
           </div>
         </div>
-
         <div class="game-row">
           <div class="game-row-icon">✖️</div>
           <div class="game-row-body">
@@ -390,7 +302,6 @@
             <div class="game-row-desc">Svara rätt på multiplikationsfrågor och samla 1 000 poäng. Spela ensam och slå ditt eget rekord, eller täv mot kompisar om vem som når målet först.</div>
           </div>
         </div>
-
         <div class="game-row">
           <div class="game-row-icon">🔐</div>
           <div class="game-row-body">
@@ -398,7 +309,6 @@
             <div class="game-row-desc">Gissa det hemliga ordet bokstav för bokstav — precis som Hänga gubbe, men roboten trillar isär istället! Perfekt att spela i helklass med läraren vid projektorn.</div>
           </div>
         </div>
-
         <div class="game-row">
           <div class="game-row-icon">🎡</div>
           <div class="game-row-body">
@@ -406,17 +316,15 @@
             <div class="game-row-desc">Snurra hjulet och låt slumpen bestämma! Välj bland de färdiga siffrorna, eller klistra in egna ord och namn — t.ex. klassens elever för att slumpa vem som ska svara härnäst.</div>
           </div>
         </div>
-
         <div class="game-row">
           <div class="game-row-icon">🏁</div>
           <div class="game-row-body">
             <div class="game-row-title">Multiplikationsrace</div>
-            <div class="game-row-desc">Träna multiplikationstabellerna solo i tre lägen: <strong style="color:var(--c5)">Tidsattack</strong> (samla så många poäng som möjligt på 30–90 sek), <strong style="color:var(--c5)">Nedräkning</strong> (nolla en poängsumma så snabbt du kan) och <strong style="color:var(--c5)">Nivåläge</strong> (klara allt högre mål innan timern tar slut). Highscore sparas lokalt.</div>
+            <div class="game-row-desc">Träna multiplikationstabellerna solo i tre lägen: <strong>Tidsattack</strong> (samla poäng på tid), <strong>Nedräkning</strong> (nolla summan så fort du kan) och <strong>Nivåläge</strong> (klara allt högre mål). Highscore sparas lokalt.</div>
           </div>
         </div>
       </div>
 
-      <!-- Hur använda -->
       <div class="modal-section">
         <h3>🖥️ Hur kan man använda det?</h3>
         <div class="pill-row">
@@ -432,18 +340,16 @@
 
       <div class="modal-divider"></div>
 
-      <!-- Cookies / data -->
       <div class="modal-section">
         <h3>🍪 Lagring &amp; integritet</h3>
         <div class="cookie-box">
           <strong>Sidan sparar ingen personlig data.</strong> Inget konto krävs och inget skickas till någon server — allt körs direkt i din webbläsare.<br><br>
-          Det enda som lagras lokalt på din enhet är ditt val av <strong>ljust eller mörkt läge</strong>. Det är tekniskt sett inte en cookie, utan webbläsarens localStorage, och försvinner om du rensar webbläsardata. Inga spårningscookies, inga annonser, ingen inloggning.
+          Det enda som lagras lokalt på din enhet är ditt val av <strong>ljust eller mörkt läge</strong> samt highscores i Multiplikationsrace. Det är tekniskt sett inte cookies, utan webbläsarens localStorage. Inga spårningscookies, inga annonser, ingen inloggning.
         </div>
       </div>
 
       <div class="modal-divider"></div>
 
-      <!-- Om skaparen -->
       <div class="modal-section" style="margin-bottom:0">
         <h3>👋 Om sidan</h3>
         <div class="about-box">
@@ -452,34 +358,73 @@
           <a href="mailto:hnrkB84@outlook.com">hnrkB84@outlook.com</a>
         </div>
       </div>
-
     </div>
   </div>
 
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
     /* Dark mode */
     const darkBtn = document.getElementById('darkBtn');
-    const html = document.documentElement;
+    const html    = document.documentElement;
     if (localStorage.getItem('theme') === 'dark') {
       html.setAttribute('data-theme','dark'); darkBtn.textContent = '☀️';
     }
     darkBtn.addEventListener('click', () => {
       const dark = html.getAttribute('data-theme') === 'dark';
-      dark
-        ? (html.removeAttribute('data-theme'), darkBtn.textContent='🌙', localStorage.setItem('theme','light'))
-        : (html.setAttribute('data-theme','dark'), darkBtn.textContent='☀️', localStorage.setItem('theme','dark'));
+      if (dark) { html.removeAttribute('data-theme'); darkBtn.textContent = '🌙'; localStorage.setItem('theme','light'); }
+      else      { html.setAttribute('data-theme','dark'); darkBtn.textContent = '☀️'; localStorage.setItem('theme','dark'); }
     });
 
-    /* Modal */
-    const backdrop = document.getElementById('modalBackdrop');
-    const infoBtn  = document.getElementById('infoBtn');
-    const closeBtn = document.getElementById('modalClose');
+    /* Info modal */
+    const infoBackdrop = document.getElementById('modalBackdrop');
+    document.getElementById('infoBtn').addEventListener('click',    () => infoBackdrop.classList.add('open'));
+    document.getElementById('modalClose').addEventListener('click', () => infoBackdrop.classList.remove('open'));
+    infoBackdrop.addEventListener('click', e => { if (e.target === infoBackdrop) infoBackdrop.classList.remove('open'); });
 
-    infoBtn.addEventListener('click',  () => backdrop.classList.add('open'));
-    closeBtn.addEventListener('click', () => backdrop.classList.remove('open'));
-    backdrop.addEventListener('click', e => {
-      if (e.target === backdrop) backdrop.classList.remove('open');
+    /* QR modal */
+    const qrBackdrop = document.getElementById('qrBackdrop');
+    const qrResult   = document.getElementById('qrResult');
+    const qrUrlText  = document.getElementById('qrUrlText');
+    const qrBox      = document.getElementById('qrBox');
+    let   qrObj      = null;
+
+    document.getElementById('qrBtn').addEventListener('click', () => qrBackdrop.classList.add('open'));
+    document.getElementById('qrClose').addEventListener('click', () => qrBackdrop.classList.remove('open'));
+    qrBackdrop.addEventListener('click', e => { if (e.target === qrBackdrop) qrBackdrop.classList.remove('open'); });
+
+    document.querySelector('.qr-game-list').addEventListener('click', e => {
+      const btn = e.target.closest('.qr-game-btn');
+      if (!btn) return;
+      const url = btn.dataset.url;
+
+      document.querySelectorAll('.qr-game-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      qrUrlText.textContent = url;
+      qrResult.classList.add('visible');
+
+      /* Regenerate QR */
+      qrBox.innerHTML = '';
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      qrObj = new QRCode(qrBox, {
+        text:         url,
+        width:        200,
+        height:       200,
+        colorDark:    isDark ? '#e5e7eb' : '#0f172a',
+        colorLight:   isDark ? '#1e293b' : '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    });
+
+    document.getElementById('qrCopyBtn').addEventListener('click', () => {
+      const url = qrUrlText.textContent;
+      if (!url) return;
+      navigator.clipboard.writeText(url).then(() => {
+        const b = document.getElementById('qrCopyBtn');
+        b.textContent = '✓ Kopierad!';
+        setTimeout(() => b.textContent = '📋 Kopiera', 2000);
+      });
     });
   </script>
 </body>
